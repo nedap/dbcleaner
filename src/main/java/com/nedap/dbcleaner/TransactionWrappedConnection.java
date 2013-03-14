@@ -71,6 +71,15 @@ public class TransactionWrappedConnection extends BaseConnectionWrapper implemen
          */
     }
 
+    /** force a close on this connection, mainly for cleaning up after tests*/
+    public synchronized void forceClose() throws SQLException {
+        synchronized (openConnections) {
+            openConnections.remove(getConnectionNumber());
+        }
+        realConnection.close();
+
+    }
+
     public synchronized void forceStartTransaction() throws SQLException {
         this.inForcedTransaction = true;
         realConnection.setAutoCommit(false);
