@@ -1,31 +1,59 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.nedap</groupId>
-  <artifactId>dbcleaner</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+    <groupId>com.nedap</groupId>
+    <artifactId>dbcleaner</artifactId>
+    <version>1.1</version>
+    <packaging>jar</packaging>
 
-  <name>dbcleaner</name>
-  <url>http://maven.apache.org</url>
+    <name>dbcleaner</name>
+    
+    <scm> 
+        <connection>scm:git:https://github.com/nedap/dbcleaner.git</connection> 
+        <url>https://github.com/nedap/dbcleaner</url> 
+        <developerConnection>scm:git:git@github.com:nedap/dbcleaner.git</developerConnection> 
+    </scm> 
+    
+    <distributionManagement>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>nedap.artifactoryonline.com</id>
+            <url>${artifactory.url}/libs-releases-local</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>true</uniqueVersion>
+            <id>nedap-snapshots.artifactoryonline.com</id>
+            <url>${artifactory.url}/libs-snapshots-local</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <artifactory.url>https://nedap.artifactoryonline.com/nedap</artifactory.url>
+    </properties>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <version>2.2.9</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.2.9</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <repositories>
+        <repository>
+            <id>nedap.artifactoryonline.com</id>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <url>${artifactory.url}/libs-nedap-local</url>
+        </repository>
+    </repositories>
 </project>
