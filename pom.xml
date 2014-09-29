@@ -3,7 +3,7 @@
 
     <groupId>com.nedap</groupId>
     <artifactId>dbcleaner</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
     <name>dbcleaner</name>
@@ -12,7 +12,7 @@
         <connection>scm:git:https://github.com/nedap/dbcleaner.git</connection> 
         <url>https://github.com/nedap/dbcleaner</url> 
         <developerConnection>scm:git:git@github.com:nedap/dbcleaner.git</developerConnection> 
-        <tag>HEAD</tag>
+        <tag>dbcleaner-1.1</tag>
   </scm>
 
     <build>
