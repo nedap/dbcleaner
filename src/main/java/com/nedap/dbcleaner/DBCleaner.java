@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 public class DBCleaner implements Driver {
 
     private static final String JDBCPREFIX = "jdbc:dbcleaner";
+    private static final String DBCLEANER_TRANSACTIONISOLATION = "dbcleaner.transactionisolation";
     /**
      * The last actual, underlying driver that was requested via a URL.
      */
@@ -131,7 +132,23 @@ public class DBCleaner implements Driver {
                 transactionWrappedConnection = null;
             }
             if (transactionWrappedConnection == null) {
-                Connection c = d.connect(url, info);
+                Properties underlyingProperties = getUnderlyingProperties(info);
+                Connection c = d.connect(url, underlyingProperties);
+                String isolationLevel = info.getProperty(DBCLEANER_TRANSACTIONISOLATION, "");
+                switch(isolationLevel) {
+                    case "read_committed":
+                        c.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+                        break;
+                    case "read_uncommitted":
+                        c.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+                        break;
+                    case "repeatable_read":
+                        c.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+                        break;
+                    case "serializable":
+                        c.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+                        break;
+                }
                 if (c == null) {
                     throw new SQLException("invalid or unknown driver url: " + url);
                 }
@@ -140,6 +157,17 @@ public class DBCleaner implements Driver {
             }
         }
         return transactionWrappedConnection;
+    }
+
+    private Properties getUnderlyingProperties(Properties info) {
+        Properties properties = new Properties();
+        if (info != null) {
+            for (Map.Entry<Object, Object> property : info.entrySet()) {
+                properties.put(property.getKey(), property.getValue());
+            }
+        }
+        properties.setProperty(DBCLEANER_TRANSACTIONISOLATION, "read_committed");
+        return properties;
     }
 
     /**
@@ -190,7 +218,7 @@ public class DBCleaner implements Driver {
         //now create the actual connection
         Connection c = null;
         if (!TransactionUtil.isInForcedTransaction()) {
-            c = d.connect(url, info);
+            c = d.connect(url, getUnderlyingProperties(info));
         }
         SwitchingConnectionWrapper wrapper = new SwitchingConnectionWrapper(c, transactionWrappedConnection, url, info);
 
