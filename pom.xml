@@ -12,6 +12,7 @@
         <connection>scm:git:https://github.com/nedap/dbcleaner.git</connection> 
         <url>https://github.com/nedap/dbcleaner</url> 
         <developerConnection>scm:git:git@github.com:nedap/dbcleaner.git</developerConnection> 
+        <tag>HEAD</tag>
   </scm>
 
     <build>
@@ -19,9 +20,21 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <goals>deploy</goals>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <pushChanges>false</pushChanges>
                 </configuration>
             </plugin>
         </plugins>
